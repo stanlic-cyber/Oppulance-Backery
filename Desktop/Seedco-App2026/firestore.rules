@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuth() {
+      return true;
+    }
+    
+    function isSuperAdmin() {
+      return true;
+    }
+
+    match /users/{userId} {
+      allow read: if isAuth();
+      allow write: if isAuth() && (request.auth.uid == userId || isSuperAdmin());
+    }
+
+    match /audit_logs/{logId} {
+      allow read: if isSuperAdmin() || (isAuth() && resource.data.userId == request.auth.uid);
+      allow create: if isAuth();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if isAuth() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow create: if isAuth() && (request.auth.uid == request.resource.data.userId || isSuperAdmin());
+      allow update, delete: if isAuth() && (request.auth.uid == resource.data.userId || isSuperAdmin());
+    }
+
+    match /ai_chats/{chatId} {
+      allow read: if isAuth() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow create: if isAuth() && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if isAuth() && (request.auth.uid == resource.data.userId || isSuperAdmin());
+    }
+
+    match /disease_reports/{reportId} {
+      allow read: if isAuth();
+      allow create: if isAuth() && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if isSuperAdmin() || (isAuth() && request.auth.uid == resource.data.userId);
+    }
+
+    match /inventories/{inventoryId} {
+      allow read: if isAuth();
+      allow create: if isAuth() && request.auth.uid == request.resource.data.dealerId;
+      allow update, delete: if isSuperAdmin() || (isAuth() && request.auth.uid == resource.data.dealerId);
+    }
+    
+    // Fallback rule for any other collection if we add them later
+    match /{document=**} {
+      allow read, write: if isSuperAdmin();
+    }
+  }
+}
