@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie Policy | Coreline Systems</title>
+    <style>
+      :root {
+        --void: #05080d;
+        --panel: #0b121c;
+        --line: rgba(255, 255, 255, 0.09);
+        --cyan: #45e8ff;
+        --hi: #f1f5f8;
+        --mid: #95a6ba;
+        --low: #57677c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--void);
+        color: var(--hi);
+        font-family: Inter, system-ui, sans-serif;
+      }
+      .wrap {
+        width: min(760px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+      main {
+        padding: 90px 0 70px;
+      }
+      .eyebrow {
+        color: var(--cyan);
+        font: 12px/1.4 monospace;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 18px 0 36px;
+        font:
+          600 clamp(30px, 5vw, 52px)/1.1 system-ui,
+          sans-serif;
+      }
+      h2 {
+        margin: 34px 0 10px;
+        font-size: 18px;
+      }
+      p {
+        color: var(--mid);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+      a {
+        color: var(--cyan);
+        text-underline-offset: 3px;
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 42px;
+        color: var(--mid);
+      }
+      button {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 11px 15px;
+        background: var(--panel);
+        color: var(--hi);
+        cursor: pointer;
+        font: inherit;
+      }
+      button:hover,
+      button:focus-visible {
+        border-color: var(--cyan);
+      }
+      @media (max-width: 600px) {
+        .wrap {
+          width: min(100% - 32px, 760px);
+        }
+        main {
+          padding-top: 48px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="wrap">
+        <a class="back" href="/">&#8592; Back to Coreline Systems</a>
+        <div class="eyebrow">Cookie Policy</div>
+        <h1>How this website uses cookies.</h1>
+        <h2>What are cookies?</h2>
+        <p>
+          Cookies are small pieces of information stored by a website in a
+          visitor's browser or on their device. This website uses browser
+          storage to remember your cookie-consent choice.
+        </p>
+        <h2>How Coreline Systems uses cookies</h2>
+        <p>
+          Coreline Systems does not currently use analytics, advertising,
+          tracking, or other non-essential cookie services. The essential
+          consent record is stored locally as
+          <strong>coreline_cookie_consent</strong> with a value of
+          <strong>accepted</strong> or <strong>denied</strong>.
+        </p>
+        <h2>Cookie consent</h2>
+        <p>
+          You can accept cookies or deny non-essential cookies using the banner.
+          Your choice is saved so the banner does not appear on every visit.
+        </p>
+        <p>
+          <button type="button" id="changeCookiePreference">
+            Change cookie preference
+          </button>
+        </p>
+        <h2>Managing cookies</h2>
+        <p>
+          You can also manage or delete stored cookies and browser data through
+          your browser settings. Removing this site's stored consent will show
+          the consent banner again on your next visit.
+        </p>
+      </div>
+    </main>
+    <script>
+      document
+        .getElementById("changeCookiePreference")
+        .addEventListener("click", () => {
+          localStorage.removeItem("coreline_cookie_consent");
+          window.location.href = "/";
+        });
+    </script>
+  </body>
+</html>
