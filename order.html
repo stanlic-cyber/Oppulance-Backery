@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order - Oppulance Backery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Libre+Franklin:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="order.css">
+</head>
+<body>
+  <div class="topbar"><p>Open Tue&ndash;Fri, 7am to 6pm</p></div>
+  <header class="header">
+    <a class="logo" href="index.html">Oppulance <span>Backery</span></a>
+    <nav><a href="index.html#menu">Menu</a></nav>
+  </header>
+
+  <main>
+    <section class="order">
+      <h1>Order ahead.</h1>
+      <p class="lead">Pick what you want, choose a time, and we will have it boxed and waiting.</p>
+      <div class="order-cols">
+        <div id="list"></div>
+        <form id="form">
+          <h2>Your order</h2>
+          <div id="sum"></div>
+          <label>Name <input name="name" required></label>
+          <label>Phone <input name="phone" type="tel" required></label>
+          <label>Pickup
+            <select name="slot">
+              <option>Tomorrow, 7&ndash;9am</option><option>Tomorrow, 9&ndash;11am</option>
+              <option>Tomorrow, 11am&ndash;1pm</option><option>Tomorrow, 1&ndash;6pm</option>
+            </select>
+          </label>
+          <button class="go">Place order</button>
+          <p id="msg"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const M = [
+      ["Bread","White sourdough",6.5],["Bread","Seeded rye",7],["Bread","Sandwich loaf",4.8],["Bread","Baguette",3.2],["Bread","Focaccia, rosemary &amp; salt",5.5],
+      ["Pastry","Butter croissant",3.4],["Pastry","Pain au chocolat",3.8],["Pastry","Cinnamon bun",3.9],["Pastry","Almond croissant",4.2],
+      ["Doughnuts","Sugar ring",2.5],["Doughnuts","Vanilla custard",3.6],["Doughnuts","Raspberry jam",3.4],["Doughnuts","Chocolate glaze",3.4],
+      ["Cakes &amp; biscuits","Lemon drizzle, slice",3.9],["Cakes &amp; biscuits","Carrot cake, slice",4.2],["Cakes &amp; biscuits","Chocolate chip cookie",2.2]
+    ];
+    const q = M.map(() => 0), $ = n => n.toFixed(2);
+    function draw() {
+      list.innerHTML = M.map(([g, n, p], i) => (i && M[i-1][0] == g ? "" : `<h3>${g}</h3>`) +
+        `<div class="row"><span>${n}</span><span>${$(p)}</span>
+         <button type="button" data-i="${i}" data-d="-1" aria-label="Remove one">&minus;</button><b>${q[i]}</b>
+         <button type="button" data-i="${i}" data-d="1" aria-label="Add one">+</button></div>`).join("");
+      const t = M.reduce((s, m, i) => s + q[i] * m[2], 0);
+      sum.innerHTML = (t ? M.map((m, i) => q[i] ? `<div class="row"><span>${q[i]} &times; ${m[1]}</span><span>${$(q[i] * m[2])}</span></div>` : "").join("")
+        : "<p>Nothing yet. Add something from the list.</p>") + `<div class="row total"><span>Total</span><span>${$(t)}</span></div>`;
+    }
+    list.onclick = e => { const b = e.target.closest("button"); if (b) { q[b.dataset.i] = Math.max(0, q[b.dataset.i] + +b.dataset.d); draw(); } };
+    form.onsubmit = e => {
+      e.preventDefault();
+      msg.textContent = q.some(x => x) ? `Thank you, ${form.name.value}. Collect your order ${form.slot.value}.` : "Add an item first.";
+    };
+    draw();
+  </script>
+</body>
+</html>
