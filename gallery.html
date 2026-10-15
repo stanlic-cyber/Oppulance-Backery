@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | Oppulance Backery</title>
+  <meta name="description" content="Photos of the bread, pastry, cakes and biscuits baked every morning at Oppulance Backery.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Libre+Franklin:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <p>Open Tue&ndash;Fri, 7am to 6pm</p>
+  </div>
+
+  <header class="header">
+    <a class="logo" href="index.html">Oppulance <span>Backery</span></a>
+    <nav>
+      <a href="menu.html">Menu</a>
+      <a href="gallery.html" aria-current="page">Gallery</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="gallery">
+      <div class="gallery-head">
+        <h1>From our ovens</h1>
+        <p>A few of the things we bake. Tap a photo to see it larger.</p>
+      </div>
+
+      <div class="gallery-filters" id="filters" role="group" aria-label="Filter by type"></div>
+      <p class="gallery-count" id="count" role="status"></p>
+
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+
+  </main>
+
+  <dialog class="viewer" id="viewer" aria-label="Photo viewer">
+    <div class="viewer-stage">
+      <button class="viewer-nav" id="prev" type="button" aria-label="Previous photo">&#8249;</button>
+      <img id="big" alt="">
+      <button class="viewer-nav" id="next" type="button" aria-label="Next photo">&#8250;</button>
+    </div>
+    <div class="viewer-pn">
+      <button class="viewer-nav" id="prev2" type="button" aria-label="Previous photo">&#8249;</button>
+      <button class="viewer-nav" id="next2" type="button" aria-label="Next photo">&#8250;</button>
+    </div>
+    <div class="viewer-info">
+      <div>
+        <h2 id="title"></h2>
+        <p id="desc"></p>
+      </div>
+      <div class="viewer-meta">
+        <span id="pos"></span>
+        <button class="viewer-close" id="close" type="button">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+var ITEMS = [
+  {
+    "name": "Sourdough loaf",
+    "cat": "Bread",
+    "desc": "Crisp crust and an open crumb.",
+    "alt": "A crusty sourdough loaf with one slice cut off, on a slate board",
+    "w": 671,
+    "h": 1000,
+    "src": "images/gallery-1.jpg"
+  },
+  {
+    "name": "Seeded loaf",
+    "cat": "Bread",
+    "desc": "Dark, seeded and topped with oats.",
+    "alt": "A dark seeded loaf topped with oats, with a slice cut off",
+    "w": 1000,
+    "h": 1000,
+    "src": "images/gallery-2.jpg"
+  },
+  {
+    "name": "Dinner rolls",
+    "cat": "Bread",
+    "desc": "Soft rolls, brushed with butter.",
+    "alt": "A basket of glossy dinner rolls, one torn open",
+    "w": 667,
+    "h": 1000,
+    "src": "images/gallery-3.jpg"
+  },
+  {
+    "name": "Butter croissant",
+    "cat": "Pastry",
+    "desc": "Flaky layers, baked golden.",
+    "alt": "Golden butter croissants on a wooden board next to a cup of coffee",
+    "w": 667,
+    "h": 1000,
+    "src": "images/gallery-4.jpg"
+  },
+  {
+    "name": "Cinnamon bun",
+    "cat": "Pastry",
+    "desc": "Rolled by hand and dusted with sugar.",
+    "alt": "Three cinnamon buns dusted with sugar on a wooden board",
+    "w": 750,
+    "h": 1000,
+    "src": "images/gallery-5.jpg"
+  },
+  {
+    "name": "Beef pie",
+    "cat": "Savoury",
+    "desc": "Slow-cooked beef in a buttery crust.",
+    "alt": "A beef pie with the crust cut open to show the filling",
+    "w": 667,
+    "h": 1000,
+    "src": "images/gallery-6.jpg"
+  },
+  {
+    "name": "Chicken and veg pie",
+    "cat": "Savoury",
+    "desc": "Creamy chicken with leeks and peas.",
+    "alt": "A chicken and vegetable pie in a dish, with a slice on a plate with green beans",
+    "w": 546,
+    "h": 1000,
+    "src": "images/gallery-7.jpg"
+  },
+  {
+    "name": "Cheese and herb scone",
+    "cat": "Savoury",
+    "desc": "Mature cheddar and fresh chives.",
+    "alt": "Cheese and chive scones on a wooden board with a dish of butter",
+    "w": 1000,
+    "h": 1000,
+    "src": "images/gallery-8.jpg"
+  },
+  {
+    "name": "Vanilla cupcake",
+    "cat": "Cakes & biscuits",
+    "desc": "Vanilla sponge with buttercream.",
+    "alt": "Vanilla cupcakes with swirled buttercream and sprinkles on a cooling rack",
+    "w": 667,
+    "h": 1000,
+    "src": "images/gallery-9.jpg"
+  },
+  {
+    "name": "Chocolate fudge cake",
+    "cat": "Cakes & biscuits",
+    "desc": "Four layers of chocolate cake with fudge icing.",
+    "alt": "A slice of four-layer chocolate cake with raspberries",
+    "w": 753,
+    "h": 1000,
+    "src": "images/gallery-10.jpg"
+  },
+  {
+    "name": "Whole cake to order",
+    "cat": "Cakes & biscuits",
+    "desc": "Whole cakes to order. Ask us a few days ahead.",
+    "alt": "A chocolate drip cake decorated with chocolates on a cake stand",
+    "w": 747,
+    "h": 1000,
+    "src": "images/gallery-11.jpg"
+  },
+  {
+    "name": "Oat and raisin cookie",
+    "cat": "Cakes & biscuits",
+    "desc": "Chewy, golden, not too sweet.",
+    "alt": "Oat and raisin cookies next to a glass of milk",
+    "w": 667,
+    "h": 1000,
+    "src": "images/gallery-12.jpg"
+  },
+  {
+    "name": "Double chocolate cookie",
+    "cat": "Cakes & biscuits",
+    "desc": "Crisp edges, soft chocolate centre.",
+    "alt": "A pile of double chocolate cookies",
+    "w": 236,
+    "h": 354,
+    "src": "images/gallery-13.jpg"
+  },
+  {
+    "name": "Filter coffee",
+    "cat": "Drinks",
+    "desc": "Freshly brewed.",
+    "alt": "Filter coffee in a brass cup, with coffee beans beside it",
+    "w": 736,
+    "h": 920,
+    "src": "images/gallery-14.jpg"
+  },
+  {
+    "name": "Hot chocolate",
+    "cat": "Drinks",
+    "desc": "Made with real chocolate and steamed milk.",
+    "alt": "A glass of hot chocolate topped with cream, with cinnamon sticks beside it",
+    "w": 512,
+    "h": 768,
+    "src": "images/gallery-15.jpg"
+  }
+];
+
+var cat = "All";
+var cur = [];
+var idx = 0;
+var cats = ["All"].concat(ITEMS.map(function (p) { return p.cat; }).filter(function (c, i, a) { return a.indexOf(c) === i; }));
+
+var filters = document.getElementById("filters");
+var grid = document.getElementById("gallery-grid");
+var viewer = document.getElementById("viewer");
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+  });
+}
+
+cats.forEach(function (c) {
+  var b = document.createElement("button");
+  b.type = "button";
+  b.textContent = c;
+  b.setAttribute("aria-pressed", c === cat);
+  b.onclick = function () {
+    cat = c;
+    [].forEach.call(filters.children, function (x) {
+      x.setAttribute("aria-pressed", x.textContent === cat);
+    });
+    draw();
+  };
+  filters.appendChild(b);
+});
+
+function draw() {
+  cur = ITEMS.filter(function (p) { return cat === "All" || p.cat === cat; });
+  document.getElementById("count").textContent = cur.length + (cur.length === 1 ? " photo" : " photos");
+  grid.innerHTML = cur.map(function (p, i) {
+    return '<figure class="gallery-item">' +
+      '<button class="gallery-open" type="button" data-i="' + i + '" aria-label="View ' + esc(p.name) + ' larger">' +
+      '<img src="' + p.src + '" width="' + p.w + '" height="' + p.h + '" alt="' + esc(p.alt) + '" loading="lazy">' +
+      '</button>' +
+      '<figcaption>' + esc(p.name) + '<span>' + esc(p.cat) + '</span></figcaption>' +
+      '</figure>';
+  }).join("");
+}
+
+function show() {
+  var p = cur[idx];
+  var big = document.getElementById("big");
+  big.src = p.src;
+  big.alt = p.alt;
+  document.getElementById("title").textContent = p.name;
+  document.getElementById("desc").textContent = p.desc;
+  document.getElementById("pos").textContent = (idx + 1) + " of " + cur.length;
+}
+
+function step(d) {
+  idx = (idx + d + cur.length) % cur.length;
+  show();
+}
+
+grid.addEventListener("click", function (e) {
+  var t = e.target.closest(".gallery-open");
+  if (!t) return;
+  idx = +t.dataset.i;
+  show();
+  viewer.showModal();
+});
+
+["prev", "prev2"].forEach(function (id) {
+  document.getElementById(id).onclick = function () { step(-1); };
+});
+["next", "next2"].forEach(function (id) {
+  document.getElementById(id).onclick = function () { step(1); };
+});
+document.getElementById("close").onclick = function () { viewer.close(); };
+
+viewer.addEventListener("click", function (e) {
+  if (e.target === viewer) viewer.close();
+});
+
+document.addEventListener("keydown", function (e) {
+  if (!viewer.open) return;
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+
+var startX = null;
+viewer.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+viewer.addEventListener("touchend", function (e) {
+  if (startX === null) return;
+  var dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+  startX = null;
+});
+
+draw();
+  </script>
+</body>
+</html>
