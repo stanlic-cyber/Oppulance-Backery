@@ -71,10 +71,6 @@
   padding-top: 6px;
 }
 
-.header nav a[aria-current="page"] {
-  color: var(--red);
-}
-
 .gallery-open:focus-visible,
 .gallery-filters button:focus-visible,
 .viewer-nav:focus-visible,

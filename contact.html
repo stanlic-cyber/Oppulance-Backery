@@ -20,26 +20,26 @@
 
 <body>
 
-  <!-- Opening hours -->
   <div class="topbar">
-    <p>Open Tue–Fri, 7am to 6pm</p>
+    <p>Open Tue&ndash;Fri, 7am to 6pm</p>
   </div>
 
-  <!-- Website header -->
   <header class="header">
-    <a class="logo" href="index.html">
-      Oppulance <span>Backery</span>
-    </a>
-
+    <a class="logo" href="index.html">Oppulance <span>Backery</span></a>
     <nav>
+      <a href="index.html">Home</a>
       <a href="index.html#menu">Menu</a>
-      <a href="contact.html">Contact</a>
+      <a href="order.html">Order</a>
+      <a href="services.html">Services</a>
+      <a href="recipe.html">Recipes</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" aria-current="page">Contact</a>
     </nav>
   </header>
 
   <main>
 
-    <!-- Contact introduction -->
     <section class="contact-intro">
       <p class="contact-label">WE WOULD LOVE TO HEAR FROM YOU</p>
 
@@ -52,7 +52,6 @@
       </p>
     </section>
 
-    <!-- Contact details and form -->
     <section class="contact-section">
 
       <div class="contact-details">
@@ -75,21 +74,8 @@
           <p>Saturday – Monday: Closed</p>
         </div>
 
-        <div class="contact-item">
-          <h3>Call or email</h3>
-          <p>
-            <strong>Phone:</strong>
-            <a href="tel:+263000000000">+263714158142</a>
-          </p>
-          <p>
-            <strong>Email:</strong>
-            <a href="mailto:hello@example.com">zhouelizabeth13@gmail.com</a>
-          </p>
-        </div>
-
       </div>
 
-      <!-- Contact form -->
       <div class="contact-form-container">
 
         <h2>Send us a message</h2>
@@ -98,7 +84,7 @@
           Fill in the form below and tell us how we can help.
         </p>
 
-        <form action="#" method="post">
+        <form id="contact-form">
 
           <div class="form-group">
             <label for="name">Full name</label>
@@ -151,6 +137,7 @@
           </div>
 
           <button type="submit">Send Message</button>
+          <p id="sent" role="status"></p>
 
         </form>
 
@@ -160,11 +147,17 @@
 
   </main>
 
-  <!-- Website footer -->
   <footer class="footer">
-    <p>&copy; 2026 Oppulance Backery. Freshly baked with care.</p>
     <a href="index.html">Back to Home</a>
   </footer>
 
+  <script>
+    var form = document.getElementById("contact-form");
+    form.onsubmit = function (e) {
+      e.preventDefault();
+      document.getElementById("sent").textContent = "Thank you, " + document.getElementById("name").value + ". We will get back to you soon.";
+      form.reset();
+    };
+  </script>
 </body>
 </html>
