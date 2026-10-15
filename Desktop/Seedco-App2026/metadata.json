@@ -1,6 +1,0 @@
-{
-  "name": "NeuroSeedco Crop AI",
-  "description": "High-fidelity product mockup board for an agricultural platform",
-  "requestFramePermissions": ["geolocation", "camera"],
-  "majorCapabilities": []
-}
